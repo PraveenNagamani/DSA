@@ -1,0 +1,14 @@
+P:\Work\DSA\DSADemo\bin\Debug\net8.0\DSADemo.exe
+P:\Work\DSA\DSADemo\bin\Debug\net8.0\DSADemo.deps.json
+P:\Work\DSA\DSADemo\bin\Debug\net8.0\DSADemo.runtimeconfig.json
+P:\Work\DSA\DSADemo\bin\Debug\net8.0\DSADemo.dll
+P:\Work\DSA\DSADemo\bin\Debug\net8.0\DSADemo.pdb
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\DSADemo.GeneratedMSBuildEditorConfig.editorconfig
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\DSADemo.AssemblyInfoInputs.cache
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\DSADemo.AssemblyInfo.cs
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\DSADemo.csproj.CoreCompileInputs.cache
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\DSADemo.dll
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\refint\DSADemo.dll
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\DSADemo.pdb
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\DSADemo.genruntimeconfig.cache
+P:\Work\DSA\DSADemo\obj\Debug\net8.0\ref\DSADemo.dll
