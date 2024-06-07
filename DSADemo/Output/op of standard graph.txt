@@ -1,0 +1,213 @@
+Demonstration of :
+ 1. Dictionary
+ 2. Double Linked List
+ 3. Basic Graphs
+ 4. Standard Graphs
+Enter the required demo sl.no :
+4
+enter no of vertices
+4
+Value of Vertex :
+a
+Value of Vertex :
+b
+Value of Vertex :
+c
+Value of Vertex :
+d
+enter no of edges
+5
+Edge  b/w Vertex 1 :
+a
+ to Vertex 2 :
+b
+Edge  b/w Vertex 1 :
+a
+ to Vertex 2 :
+d
+Edge  b/w Vertex 1 :
+b
+ to Vertex 2 :
+d
+Edge  b/w Vertex 1 :
+b
+ to Vertex 2 :
+c
+Edge  b/w Vertex 1 :
+c
+ to Vertex 2 :
+d
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+a
+============ STANDARD GRAPHS TRAVERSAL ================
+ Neighbour of : a [  -> b -> d ]
+
+ Neighbour of : b [  -> d -> c ]
+
+ Neighbour of : c [  -> d ]
+
+ Neighbour of : d [  ]
+
+
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+f
+Edge  b/w Vertex 1 :
+b
+ to Vertex 2 :
+d
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+a
+============ STANDARD GRAPHS TRAVERSAL ================
+ Neighbour of : a [  -> b -> d ]
+
+ Neighbour of : b [  -> c ]
+
+ Neighbour of : c [  -> d ]
+
+ Neighbour of : d [  ]
+
+
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+d
+enter value to add vertex
+e
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+e
+Edge  b/w Vertex 1 :
+b
+ to Vertex 2 :
+e
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+e
+Edge  b/w Vertex 1 :
+e
+ to Vertex 2 :
+d
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+a
+============ STANDARD GRAPHS TRAVERSAL ================
+ Neighbour of : a [  -> b -> d ]
+
+ Neighbour of : b [  -> c -> e ]
+
+ Neighbour of : c [  -> d ]
+
+ Neighbour of : d [  ]
+
+ Neighbour of : e [  -> d ]
+
+
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+b
+enter value to remove
+e
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+a
+============ STANDARD GRAPHS TRAVERSAL ================
+ Neighbour of : a [  -> b -> d ]
+
+ Neighbour of : b [  -> c -> e ]
+
+ Neighbour of : c [  -> d ]
+
+ Neighbour of : d [  ]
+
+
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+c
+do you want to continue (Y/N)
+Y
+ a. Traverse Graph
+ b. Remove vertex
+ c. Clear Graph
+ d. Add vertex
+ e. Add Edge
+ f. Clear Edge
+ -- select activity --
+a
+============ STANDARD GRAPHS TRAVERSAL ================
+
+do you want to continue (Y/N)
+N
+
+P:\Work\DSA\DSADemo\bin\Debug\net8.0\DSADemo.exe (process 24432) exited with code 0.
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
