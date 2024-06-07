@@ -28,14 +28,15 @@ namespace DSADemo.DSA
             get { return _neighbours; }
         }
 
-        internal void TraverseGenericGraphNode()
+        internal void TraverseNeighbours()
         {
 
             foreach(GenericGraphNode<T> node in Neighbours)
             {
                 Console.Write(" -> " + node.GetNodeValue.ToString());
             }
-            Console.Write(" ] ");
+            Console.WriteLine(" ] ");
+            
         }
 
          
@@ -176,8 +177,38 @@ namespace DSADemo.DSA
             Console.WriteLine("========== GENERIC GRAPH TRAVERSAL============");
             foreach (GenericGraphNode<T> node in nodes)
             {
-                Console.WriteLine(" Neighbours of " + node.GetNodeValue.ToString() + " [");
-                node.TraverseGenericGraphNode();
+                Console.Write(" Neighbours of " + node.GetNodeValue.ToString() + " [");
+                node.TraverseNeighbours();
+
+            }
+
+            MatrixForm();
+        }
+
+        internal void MatrixForm()
+        {
+            Console.WriteLine("========== GENERIC GRAPH MATRIX FORM============");
+            foreach (GenericGraphNode<T> node in nodes)
+            {
+
+                foreach (GenericGraphNode<T> _neighbour in nodes)
+                {
+                    int pathfound;
+                    if(node.GetNodeValue.ToString() == _neighbour.GetNodeValue.ToString())
+                    {
+                        pathfound = -1;
+                    }
+                    else if (node.Neighbours.Contains(_neighbour))
+                    {
+                        pathfound = 1;
+                    }
+                    else
+                    {
+                        pathfound = 0;
+                    }
+                    Console.Write(pathfound); ;
+                }
+                Console.WriteLine();
 
             }
         }
