@@ -3,8 +3,11 @@
 
 using DSADemo.DSA;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+
+
 
 Console.WriteLine("Demonstration of : ");
 Console.WriteLine(" 1. Dictionary");
@@ -91,7 +94,7 @@ switch(selecteddemo)
             Console.WriteLine("Value of Vertex : ");
             String _Vvalue = Console.ReadLine();
             
-            sg.AddNode(_Vvalue);
+            sg.AddVertex(_Vvalue);
 
         }
 
@@ -99,11 +102,16 @@ switch(selecteddemo)
         int Eno = Convert.ToInt32(Console.ReadLine());
 
         String _value, _value1;
+        int _Edgeweight;
+        bool _IsEdgeWeighted = false;
+
+        GraphMethods<StandardGraph> sgm = new GraphMethods<StandardGraph>();
+        
 
         for (int i = 0; i < Eno; i++)
         {
-            EdgeCapture(out _value, out _value1);
-            sg.AddNeighbour(_value, _value1);
+            sgm.EdgeCapture(out _value, out _value1,out _Edgeweight,_IsEdgeWeighted);
+            sg.AddEdge(_value, _value1);
 
         }
 
@@ -127,22 +135,22 @@ switch(selecteddemo)
                     break;
                 case "b":
                     Console.WriteLine("enter value to remove");
-                    sg.Remove(Console.ReadLine());
+                    sg.RemoveVertex(Console.ReadLine());
                     break;
                 case "c":
                     sg.Clear();
                     break;
                 case "d":
                     Console.WriteLine("enter value to add vertex");
-                    sg.AddNode(Console.ReadLine());
+                    sg.AddVertex(Console.ReadLine());
                     break;
                 case "e":
-                    EdgeCapture(out _value, out _value1);
-                    sg.AddNeighbour(_value, _value1);
+                    sgm.EdgeCapture(out _value, out _value1, out _Edgeweight, _IsEdgeWeighted);
+                    sg.AddEdge(_value, _value1);
                     break;
                 case "f":
-                    EdgeCapture(out _value, out _value1);
-                    sg.RemoveNeighbour(_value, _value1);
+                    sgm.EdgeCapture(out _value, out _value1, out _Edgeweight, _IsEdgeWeighted);
+                    sg.RemoveEdge(_value, _value1);
                     break;
                 default:
                     Console.WriteLine("Incorrect value selected");
@@ -159,10 +167,58 @@ switch(selecteddemo)
         break;
     case "5":
         Console.WriteLine("========== GENERIC GRAPH ACTIVITIES============");
+
+        Console.WriteLine("0. Non Weighted");
+        Console.WriteLine("1. Weighted");
+        bool IsWeighted = false;
+        if (Convert.ToInt32(Console.ReadLine()) == 1)
+        {
+            IsWeighted = true;
+        }
+
+
+
+        GraphMethods<GenericBidirectionalGraphs<String>> gm = new GraphMethods<GenericBidirectionalGraphs<String>>();
+        gm.GraphDetailsCapture(IsWeighted);
+
+        break;
+        
+    default:
+        Console.WriteLine("Incorrect demo no entered");
+        break;
+
+}
+
+internal class GraphMethods<T>
+{
+
+    internal void EdgeCapture(out String _value, out String _value1, out int weight, bool isweighted = false)
+    {
+        Console.WriteLine("Edge  b/w Vertex 1 : ");
+        _value = Console.ReadLine();
+        Console.WriteLine(" to Vertex 2 : ");
+        _value1 = Console.ReadLine();
+        if (isweighted)
+        {
+            Console.WriteLine("Enter weight of edge between " + _value + " and " + _value1);
+            weight = Convert.ToInt32(Console.ReadLine());
+        }
+        else
+        {
+            weight = 0;
+        }
+
+    }
+
+    internal void GraphDetailsCapture(bool IsWeighted)
+    {
+
         Console.WriteLine("enter no of vertices");
         int GVno = Convert.ToInt32(Console.ReadLine());
 
+       
         GenericBidirectionalGraphs<String> Gsg = new GenericBidirectionalGraphs<String>();
+        
 
         for (int i = 0; i < GVno; i++)
         {
@@ -177,10 +233,11 @@ switch(selecteddemo)
         int GEno = Convert.ToInt32(Console.ReadLine());
 
         String _Gvalue, _Gvalue1;
+        int _weight;
 
         for (int i = 0; i < GEno; i++)
         {
-            EdgeCapture(out _Gvalue, out _Gvalue1);
+            EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted);
             Gsg.AddEdge(_Gvalue, _Gvalue1);
 
         }
@@ -201,7 +258,7 @@ switch(selecteddemo)
             switch (_graphactivity)
             {
                 case "a":
-                    Gsg.TraverseGenericGraph();
+                    Gsg.TraverseGraph();
                     break;
                 case "b":
                     Console.WriteLine("enter value to remove");
@@ -215,12 +272,12 @@ switch(selecteddemo)
                     Gsg.AddVertex(Console.ReadLine());
                     break;
                 case "e":
-                    EdgeCapture(out _Gvalue, out _Gvalue1);
+                    EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted);
                     Gsg.AddEdge(_Gvalue, _Gvalue1);
                     break;
                 case "f":
-                    EdgeCapture(out _value, out _value1);
-                    Gsg.RemoveEdge(_value, _value1);
+                    EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted);
+                    Gsg.RemoveEdge(_Gvalue, _Gvalue1);
                     break;
                 default:
                     Console.WriteLine("Incorrect value selected");
@@ -233,22 +290,9 @@ switch(selecteddemo)
         } while (Console.ReadLine().ToUpper() == "Y");
 
 
-
-        break;
-        
-    default:
-        Console.WriteLine("Incorrect demo no entered");
-        break;
-
+    }
 }
 
- void EdgeCapture(out String _value, out String _value1)
-{
-    Console.WriteLine("Edge  b/w Vertex 1 : ");
-     _value = Console.ReadLine();
-    Console.WriteLine(" to Vertex 2 : ");
-     _value1 = Console.ReadLine();
-}
 
 
 

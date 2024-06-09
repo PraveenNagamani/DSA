@@ -77,7 +77,7 @@ namespace DSADemo.DSA
         List<GraphNode> _myGraphNodes = new List<GraphNode> ();
         public StandardGraph() { }
 
-        internal Boolean AddNode(String value)
+        internal Boolean AddVertex(String value)
         {
             if (FindNode(value) is not null) 
             {
@@ -99,7 +99,7 @@ namespace DSADemo.DSA
             return null;
         }
 
-        internal Boolean AddNeighbour(String NodeValue1, String NodeValue2)
+        internal Boolean AddEdge(String NodeValue1, String NodeValue2)
         {
             GraphNode g1 = FindNode(NodeValue1);
             GraphNode g2 = FindNode(NodeValue2);
@@ -119,7 +119,7 @@ namespace DSADemo.DSA
             }
         }
 
-        internal Boolean RemoveNeighbour(String NodeValue1, String NodeValue2)
+        internal Boolean RemoveEdge(String NodeValue1, String NodeValue2)
         {
             GraphNode g1 = FindNode(NodeValue1);
             GraphNode g2 = FindNode(NodeValue2);
@@ -144,7 +144,7 @@ namespace DSADemo.DSA
             _myGraphNodes.Clear();
         }
 
-        internal Boolean Remove(String _value)
+        internal Boolean RemoveVertex(String _value)
         {
             GraphNode g1 = FindNode(_value);
 
