@@ -5,11 +5,11 @@ namespace DSADemo.DSA
     internal class GenericGraphNode<T>
     {
         T _NodeValue;
-        List<GenericGraph<T>> _neighbours;
+        List<GenericGraphNode<T>> _neighbours;
         public GenericGraphNode(T _value) 
         { 
             _NodeValue = _value;
-            _neighbours = new List<GenericGraph<T>>();
+            _neighbours = new List<GenericGraphNode<T>>();
         }
 
         internal T NodeValue
@@ -17,12 +17,12 @@ namespace DSADemo.DSA
             get { return _NodeValue; }
         }
 
-        internal List<GenericGraph<T>> Neighbours
+        internal List<GenericGraphNode<T>> Neighbours
         {
             get { return _neighbours; }
         }
 
-       
+     
 
 
     }
