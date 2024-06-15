@@ -234,7 +234,6 @@ namespace DSADemo.DSA
                 
                 mst.AddVertex(edge.Parent.NodeValue);
                 mst.AddVertex(edge.Child.NodeValue);
-
                 GenericGraphNode<T> _parentnode = FindNode(edge.Parent.NodeValue, mst._nodes);
                 GenericGraphNode<T> _childnode = FindNode(edge.Child.NodeValue, mst._nodes);
 
