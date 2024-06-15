@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "P:\\Work\\DSA\\DSADemo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|p:\\work\\dsa\\dsademo\\dsa\\genericbidirectionalgraphs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|solutionrelative:dsa\\genericbidirectionalgraphs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|p:\\work\\dsa\\dsademo\\dsa\\genericgraph.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|solutionrelative:dsa\\genericgraph.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|p:\\work\\dsa\\dsademo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,28 +38,28 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GenericGraph.cs",
+              "DocumentMoniker": "P:\\Work\\DSA\\DSADemo\\DSA\\GenericGraph.cs",
+              "RelativeDocumentMoniker": "DSA\\GenericGraph.cs",
+              "ToolTip": "P:\\Work\\DSA\\DSADemo\\DSA\\GenericGraph.cs",
+              "RelativeToolTip": "DSA\\GenericGraph.cs",
+              "ViewState": "AQIAAN8AAAAAAAAAAAAewOQAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-09T10:25:06.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "StandardGraph.cs",
               "DocumentMoniker": "P:\\Work\\DSA\\DSADemo\\DSA\\StandardGraph.cs",
               "RelativeDocumentMoniker": "DSA\\StandardGraph.cs",
               "ToolTip": "P:\\Work\\DSA\\DSADemo\\DSA\\StandardGraph.cs",
               "RelativeToolTip": "DSA\\StandardGraph.cs",
-              "ViewState": "AQIAAJIAAAAAAAAAAAAmwIkAAAAcAAAA",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAowHcAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T02:41:19.012Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GenericBidirectionalGraphs.cs",
-              "DocumentMoniker": "P:\\Work\\DSA\\DSADemo\\DSA\\GenericBidirectionalGraphs.cs",
-              "RelativeDocumentMoniker": "DSA\\GenericBidirectionalGraphs.cs",
-              "ToolTip": "P:\\Work\\DSA\\DSADemo\\DSA\\GenericBidirectionalGraphs.cs",
-              "RelativeToolTip": "DSA\\GenericBidirectionalGraphs.cs",
-              "ViewState": "AQIAAEwAAAAAAAAAAADwv2gAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T02:38:39.901Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -69,7 +69,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "P:\\Work\\DSA\\DSADemo\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAPQAAAAAAAAAAAAQwJMAAAAZAAAA",
+              "ViewState": "AQIAAI8BAAAAAAAAAAAAAGYBAABGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-12T13:37:18.704Z",
               "EditorCaption": ""
