@@ -1,5 +1,6 @@
 ﻿
 
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Xml.Linq;
 
@@ -17,19 +18,14 @@ namespace DSADemo.DSA
             _NodeValue = _value;
             _neighbours = new List<GenericGraphNode<T>>();
         }
-
-        
-
         internal T NodeValue
         {
             get { return _NodeValue; }
         }
-
         internal List<GenericGraphNode<T>> Neighbours
         {
             get { return _neighbours; }
         }
-
         internal bool AddNeighbour(GenericGraphNode<T> _neighbour)
         {
             if (_neighbours.Contains(_neighbour)) { return false; }
@@ -90,7 +86,6 @@ namespace DSADemo.DSA
             isdirectional = _isdirectional;
             isWeighted = _isWeighted;
         }
-        
         internal bool AddVertex(T _value)
         {
             GenericGraphNode<T> g = FindNode(_value,_nodes);
@@ -108,16 +103,14 @@ namespace DSADemo.DSA
             }
 
         }
-
-        protected void UpdateIndices()
+        private void UpdateIndices()
         {
             foreach(GenericGraphNode<T> node in _nodes)
             {
                 node.index++;
             }
         }
-
-        protected GenericGraphNode<T> FindNode(T _value,List<GenericGraphNode<T>> NodeList)
+        private GenericGraphNode<T> FindNode(T _value,List<GenericGraphNode<T>> NodeList)
         {
 
             foreach(GenericGraphNode<T> node in NodeList)
@@ -132,7 +125,6 @@ namespace DSADemo.DSA
              return null;
            
         }
-
         internal bool AddEdge(T _from, T _to, int weight)
         {
             
@@ -181,8 +173,7 @@ namespace DSADemo.DSA
             }
             return false;
         }
-
-        protected int FindEdgeWeight(GenericGraphNode<T> _parent, GenericGraphNode<T> _child)
+        private int FindEdgeWeight(GenericGraphNode<T> _parent, GenericGraphNode<T> _child)
         {
 
             foreach (GenericGraphEdge<T> weight in _parent.Edges)
@@ -199,9 +190,6 @@ namespace DSADemo.DSA
 
 
         }
-
-         
-
         internal void TraverseGraph()
         {
             StringBuilder sb = new StringBuilder();
@@ -220,8 +208,24 @@ namespace DSADemo.DSA
             }
             Console.WriteLine( sb.ToString() );
         }
+        internal void TraverseGraph(List<GenericGraphNode<T>> nodelist)
+        {
+            StringBuilder sb = new StringBuilder();
 
-      
+            foreach (GenericGraphNode<T> from in nodelist)
+            {
+
+                sb.Append(" Neighbours of " + from.NodeValue + " [ ");
+                foreach (GenericGraphNode<T> to in from.Neighbours)
+                {
+                    sb.Append(" = ( weight of " + FindEdgeWeight(from, to) + ") -> to " + to.NodeValue + " , ");
+
+                }
+                sb.AppendLine(" ] ");
+
+            }
+            Console.WriteLine(sb.ToString());
+        }
         internal void KruskalsMST()
         {
             _weights.Sort((a, b) => a.EdgeWeight.CompareTo(b.EdgeWeight));
@@ -250,42 +254,119 @@ namespace DSADemo.DSA
                 i++;
             }
 
+            TraverseGraph(mst._nodes);
+            //StringBuilder sb = new StringBuilder();
 
-            StringBuilder sb = new StringBuilder();
+            //foreach (GenericGraphNode<T> from in mst._nodes)
+            //{
 
-            foreach (GenericGraphNode<T> from in mst._nodes)
-            {
+            //    sb.Append(" Neighbours of " + from.NodeValue + " [ ");
+            //    foreach (GenericGraphNode<T> to in from.Neighbours)
+            //    {
+            //        sb.Append(" = ( weight of " + FindEdgeWeight(from, to) + ") -> to " + to.NodeValue + " , ");
 
-                sb.Append(" Neighbours of " + from.NodeValue + " [ ");
-                foreach (GenericGraphNode<T> to in from.Neighbours)
-                {
-                    sb.Append(" = ( weight of " + FindEdgeWeight(from, to) + ") -> to " + to.NodeValue + " , ");
+            //    }
+            //    sb.AppendLine(" ] ");
 
-                }
-                sb.AppendLine(" ] ");
-
-            }
-            Console.WriteLine(sb.ToString());
+            //}
+            //Console.WriteLine(sb.ToString());
 
         }
-
-        private Boolean FindCycle(GenericGraphNode<T> from , GenericGraphNode<T> to, GenericGraph<T> g)
+        private Boolean FindCycle(GenericGraphNode<T> from , GenericGraphNode<T> to, GenericGraph<T> g, bool clearvisited = true, bool addfromnode = true)
         {
             if(from.Neighbours.Count == 0) {  return false; }
-           visited.Add(from);
+            if (!visited.Contains(from) && addfromnode) { 
+                visited.Add(from); 
+            }
             
             foreach(GenericGraphNode<T> nnode in from.Neighbours)
             {
                 if (visited.Contains(nnode)) { continue; }
-                if (nnode.NodeValue.Equals(to.NodeValue)) { visited.Clear();  return true; }
+                if (nnode.NodeValue.Equals(to.NodeValue)) 
+                {
+                    if (clearvisited) { visited.Clear(); }
+                    return true; 
+                }
                 
-                if(FindCycle(nnode, to, g)) { return true; }
+                if(FindCycle(nnode, to, g,clearvisited,addfromnode)) { return true; }
             }
 
             
             return false;
         }
+        protected internal void PrimsMST()
+        {
+            GenericGraph<T> primsg = new GenericGraph<T>(isdirectional,isWeighted);
 
+            GenericGraphNode<T> startnode = new GenericGraphNode<T>(_nodes[0].NodeValue);
+            List<GenericGraphNode<T>> primsvisited = new List<GenericGraphNode<T>>();
+            primsvisited.Add(startnode);
+            primsg._nodes.Add(startnode);
+            
+            while(primsvisited.Count != _nodes.Count)
+            {
+                AddMinWeightPrimMST(ref primsg, ref primsvisited);
+            }
+
+            TraverseGraph(primsg._nodes);
+
+        }
+
+        private void AddMinWeightPrimMST(ref GenericGraph<T> pg, ref List<GenericGraphNode<T>> primsvisited)
+        {
+            GenericGraphNode<T> nextnode = null;
+            GenericGraphEdge<T> nextedge = null;
+            int min = 0;
+            foreach (GenericGraphNode<T> from in primsvisited)
+            {
+                
+          
+               
+                foreach (GenericGraphEdge<T> edge in _weights)
+                {
+                    if(edge.Parent.NodeValue.Equals(edge.Child.NodeValue)) { continue; }
+                    if (from.NodeValue.Equals(edge.Parent.NodeValue) /*|| from.NodeValue.Equals(edge.Child.NodeValue)*/) 
+                    {
+                        bool visitededge = false;
+                        foreach(GenericGraphNode<T> to in primsvisited)
+                        {
+                            
+                            if(edge.Child.NodeValue.Equals (to.NodeValue)) {  visitededge = true; break; }
+                        }
+                        if (visitededge) { continue; }
+                        if ((min > edge.EdgeWeight) || (min == 0))
+                        {
+                            GenericGraphNode<T> currnode = new GenericGraphNode<T>(edge.Child.NodeValue);
+                            if (!FindCycle(from, currnode, pg))
+                            {
+                                min = edge.EdgeWeight;
+                               
+                                nextnode = currnode;
+                               
+                                nextedge = new GenericGraphEdge<T>(edge.EdgeWeight, from, nextnode);
+                                
+                            }
+                        }
+                    }
+                }
+
+                            
+
+            }
+
+            if (nextnode != null)
+            {
+                pg.AddVertex(nextnode.NodeValue);
+                pg.AddEdge(nextedge.Parent.NodeValue, nextnode.NodeValue, nextedge.EdgeWeight);
+                nextnode = FindNode(nextnode.NodeValue, pg._nodes);
+                if (!primsvisited.Contains(nextnode)) { primsvisited.Add(nextnode); }
+            }
+            
+            //nextnode.Edges.Add(nextedge);
+            
+           
+
+        }
 
     }
 }

@@ -196,16 +196,17 @@ switch(selecteddemo)
         if (Convert.ToInt32(Console.ReadLine()) == 1)
         {
             IsEdgeWeighted = true;
-            sb = new StringBuilder(); 
+           
         }
 
-        sb.AppendLine("0. Non Directional");
-        sb.AppendLine("1. Directional");
+        sb = new StringBuilder();
+        sb.AppendLine("0. Directional");
+        sb.AppendLine("1. Non Directional");
         sb.Append("--------------------");
         Console.WriteLine(sb.ToString());
         sb = null;
         bool IsDirectional = false;
-        if (Convert.ToInt32(Console.ReadLine()) == 1)
+        if (Convert.ToInt32(Console.ReadLine()) == 0)
         {
             IsDirectional = true;
         }
@@ -358,7 +359,7 @@ internal class GraphMethods<T>
 
     internal void GenericGraphDetailsCapture(bool IsWeighted, bool IsDirectional)
     {
-        Console.WriteLine("Please select a. for Entering Graph Details\n b. System Generated Graph Details");
+        Console.WriteLine("-----------------\n Please select \na. for Entering Graph Details\nb. System Generated Graph Details");
 
         String _Gvalue, _Gvalue1;
         int _weight;
@@ -423,13 +424,14 @@ internal class GraphMethods<T>
         {
             _Gvalue = ""; _Gvalue1 = "";
 
-            Console.WriteLine(" a. Traverse Graph");
+            Console.WriteLine("=======================\n a. Traverse Graph");
             //Console.WriteLine(" b. Remove vertex");
             //Console.WriteLine(" c. Clear Graph");
             Console.WriteLine(" d. Add vertex");
             Console.WriteLine(" e. Add Edge");
             //Console.WriteLine(" f. Clear Edge");
             Console.WriteLine(" g. Kruskals MST");
+            Console.WriteLine(" h. Prims MST");
             Console.WriteLine(" -- select activity -- ");
             String _graphactivity = Console.ReadLine();
 
@@ -459,6 +461,10 @@ internal class GraphMethods<T>
                     break;
                 case "g":
                     Gsg.KruskalsMST();
+                    break;
+                case "h":
+                
+                    Gsg.PrimsMST();
                     break;
                 default:
                     Console.WriteLine("Incorrect value selected");
