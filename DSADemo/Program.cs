@@ -390,7 +390,7 @@ internal class GraphMethods<T>
                 Gsg.AddEdge(_Gvalue, _Gvalue1, _weight);
 
             }
-
+            
         }
         else
         {
@@ -414,7 +414,7 @@ internal class GraphMethods<T>
             Gsg.AddEdge("g", "h",20);
             Gsg.AddEdge("d", "h",8);
             Gsg.AddEdge("h", "e",1);
-
+            //Gsg.setNodeParent();
 
         }
 
@@ -432,6 +432,8 @@ internal class GraphMethods<T>
             //Console.WriteLine(" f. Clear Edge");
             Console.WriteLine(" g. Kruskals MST");
             Console.WriteLine(" h. Prims MST");
+            Console.WriteLine(" i. Alternate Colured Graph");
+            Console.WriteLine(" j. DFS");
             Console.WriteLine(" -- select activity -- ");
             String _graphactivity = Console.ReadLine();
 
@@ -454,6 +456,7 @@ internal class GraphMethods<T>
                 case "e":
                     EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted);
                     Gsg.AddEdge(_Gvalue, _Gvalue1,_weight);
+                   
                     break;
                 case "f":
                     EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted);
@@ -465,6 +468,12 @@ internal class GraphMethods<T>
                 case "h":
                 
                     Gsg.PrimsMST();
+                    break;
+                case "i":
+                    Gsg.SetNodeColor();
+                    break;
+                case "j":
+                    Gsg.DFS();
                     break;
                 default:
                     Console.WriteLine("Incorrect value selected");

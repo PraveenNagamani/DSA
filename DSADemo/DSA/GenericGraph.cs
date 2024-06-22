@@ -1,22 +1,43 @@
 ﻿
 
+using System;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml.Linq;
 
 namespace DSADemo.DSA
 {
+    
+    enum Color
+    {
+        Red = 1, Blue = 2, Green = 3, Violet = 4, Purple = 5, Pink = 6, Yellow = 7, Black = 8 
+    }
+    //internal static class Enums
+    //{
+
+    //    public static T Next<T>(this T src) where T : struct
+    //    {
+    //        if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argument {0} is not an Enum", typeof(T).FullName));
+
+    //        T[] Arr = (T[])Enum.GetValues(src.GetType());
+    //        int j = Array.IndexOf<T>(Arr, src) + 1;
+    //        return (Arr.Length == j) ? Arr[0] : Arr[j];
+    //    }
+    //}
     internal class GenericGraphNode<T>
     {
+       
         T _NodeValue;
-        internal int index { get; set; }
+        internal Color NodeColor { get; set; }
+
         List<GenericGraphNode<T>> _neighbours ;
         internal List<GenericGraphEdge<T>> Edges { get; set; } = new List<GenericGraphEdge<T>>() ;
-  
         public GenericGraphNode(T _value)
         {
             _NodeValue = _value;
             _neighbours = new List<GenericGraphNode<T>>();
+            
         }
         internal T NodeValue
         {
@@ -36,7 +57,6 @@ namespace DSADemo.DSA
             }
         }
      
-
     }
 
     internal class GenericGraphEdge<T>
@@ -44,14 +64,12 @@ namespace DSADemo.DSA
         int _EdgeWeight;
         GenericGraphNode<T> _parentnode;
         GenericGraphNode<T> _childnode;
-
         public GenericGraphEdge(int _weight,GenericGraphNode<T> ParentVetex,GenericGraphNode<T> ChildVertex )
         {
             _EdgeWeight = _weight;
             _parentnode = ParentVetex;
             _childnode = ChildVertex;
         }
-
         internal int EdgeWeight
         {
             get { return _EdgeWeight; }
@@ -60,14 +78,10 @@ namespace DSADemo.DSA
         {
             get { return _parentnode; }
         }
-
         internal GenericGraphNode<T> Child
         {
             get { return _childnode; }
         }
-
-
-
     }
     internal class GenericGraph<T>
     {
@@ -76,7 +90,7 @@ namespace DSADemo.DSA
         List<GenericGraphNode<T>> _nodes = new List<GenericGraphNode<T>> ();
         List<GenericGraphEdge<T>> _weights = new List<GenericGraphEdge<T>>();
         List<GenericGraphNode<T>> visited = new List<GenericGraphNode<T>>();
-
+       
         protected int Count
         {
             get { return _nodes.Count;  }
@@ -98,18 +112,11 @@ namespace DSADemo.DSA
             {
                 GenericGraphNode<T> g1 = new GenericGraphNode<T>(_value);
                 _nodes.Add(g1);
-                UpdateIndices();
                 return true;
             }
 
         }
-        private void UpdateIndices()
-        {
-            foreach(GenericGraphNode<T> node in _nodes)
-            {
-                node.index++;
-            }
-        }
+
         private GenericGraphNode<T> FindNode(T _value,List<GenericGraphNode<T>> NodeList)
         {
 
@@ -124,6 +131,60 @@ namespace DSADemo.DSA
             
              return null;
            
+        }
+        internal void SetNodeColor()
+        {
+
+            DFS(false, true);
+            TraverseGraph(true);
+        }
+        public void DFS(bool print = true, bool colornode = false)
+        {
+            if (print) Console.WriteLine("============ GRAPHS DFS ================");
+            Stack<GenericGraphNode<T>> st = new Stack<GenericGraphNode<T>>();
+            if(colornode) _nodes[0].NodeColor = Color.Red;
+            st.Push(_nodes[0]);
+
+            visited.Add(st.Peek());
+            if (print)  Console.WriteLine(" DFS start with : " + st.Peek().NodeValue);
+            if (print)  Console.WriteLine(" -> " + st.Peek().NodeValue);
+
+            while (st.Count != 0)
+            {
+               GenericGraphNode<T> popv = st.Peek();
+               innerDFS(ref st, popv,  visited,print,colornode);
+               st.Pop();
+            }
+
+
+        }
+        protected void innerDFS(ref Stack<GenericGraphNode<T>> st, GenericGraphNode<T> popv, List<GenericGraphNode<T>> visited, bool print = true, bool colornode = false)
+        {
+            foreach (GenericGraphNode<T> neighbour in popv.Neighbours)
+            {
+                
+                List<String> AllColors = new List<string>(Enum.GetNames(typeof(Color)));
+
+                if (!visited.Contains(neighbour))
+                {
+                    st.Push(neighbour);
+                    if(colornode)
+                    {
+                        foreach (GenericGraphNode<T> _childneighbours in neighbour.Neighbours)
+                        {
+                            AllColors.Remove(_childneighbours.NodeColor.ToString());
+                           
+                        }
+                       
+                        Enum.TryParse(AllColors[0], out Color NC);
+                        neighbour.NodeColor = NC;
+                           
+                    }
+                    if(print) Console.WriteLine(" -> " + neighbour.NodeValue);
+                    visited.Add(st.Peek());
+                    innerDFS(ref st, neighbour,  visited,print,colornode);
+                }
+            }
         }
         internal bool AddEdge(T _from, T _to, int weight)
         {
@@ -141,7 +202,6 @@ namespace DSADemo.DSA
                 
                 if (g1.AddNeighbour(g2))
                 {
-                                      
                     
                     if (isWeighted)
                     {
@@ -150,6 +210,8 @@ namespace DSADemo.DSA
                         g1.Edges.Add(e1);
                         _weights.Add(e1);
                     }
+                
+
                 }
                 else { return false; }
 
@@ -190,17 +252,27 @@ namespace DSADemo.DSA
 
 
         }
-        internal void TraverseGraph()
+        internal void TraverseGraph(bool iscoloured = false)
         {
             StringBuilder sb = new StringBuilder();
            
             foreach (GenericGraphNode<T> from in _nodes)
             {
-              
-                sb.Append(" Neighbours of " + from.NodeValue + " [ ");
+                String colorst = "";
+                if (iscoloured)
+                {
+                    colorst = " ( Color :  " + from.NodeColor + " ) ";
+                }
+
+                sb.Append(" Neighbours of " + from.NodeValue + colorst + " [ ");
                 foreach (GenericGraphNode<T> to in from.Neighbours)
                 {
-                    sb.Append( " = ( weight of " + FindEdgeWeight(from,to) + ") -> to " + to.NodeValue + " , " );
+                    colorst = "";
+                    if (iscoloured)
+                    {
+                         colorst = " ( Color :  " + to.NodeColor + " ) ";
+                    }
+                    sb.Append( " = ( weight of " + FindEdgeWeight(from,to) + ") -> to " + to.NodeValue + colorst + " , ");
                     
                 }
                 sb.AppendLine(" ] ");
@@ -208,17 +280,28 @@ namespace DSADemo.DSA
             }
             Console.WriteLine( sb.ToString() );
         }
-        internal void TraverseGraph(List<GenericGraphNode<T>> nodelist)
+        internal void TraverseGraph(List<GenericGraphNode<T>> nodelist, bool iscoloured = false)
         {
             StringBuilder sb = new StringBuilder();
 
             foreach (GenericGraphNode<T> from in nodelist)
             {
 
-                sb.Append(" Neighbours of " + from.NodeValue + " [ ");
+                String colorst = "";
+                if (iscoloured)
+                {
+                    colorst = " ( Color :  " + from.NodeColor + " ) ";
+                }
+
+                sb.Append(" Neighbours of " + from.NodeValue + " ( Color : " + from.NodeColor + " ) " + " [ ");
                 foreach (GenericGraphNode<T> to in from.Neighbours)
                 {
-                    sb.Append(" = ( weight of " + FindEdgeWeight(from, to) + ") -> to " + to.NodeValue + " , ");
+                    colorst = "";
+                    if (iscoloured)
+                    {
+                        colorst = " ( Color :  " + to.NodeColor + " ) ";
+                    }
+                    sb.Append(" = ( weight of " + FindEdgeWeight(from, to) + ") -> to " + to.NodeValue + colorst + " , ");
 
                 }
                 sb.AppendLine(" ] ");
@@ -255,21 +338,7 @@ namespace DSADemo.DSA
             }
 
             TraverseGraph(mst._nodes);
-            //StringBuilder sb = new StringBuilder();
-
-            //foreach (GenericGraphNode<T> from in mst._nodes)
-            //{
-
-            //    sb.Append(" Neighbours of " + from.NodeValue + " [ ");
-            //    foreach (GenericGraphNode<T> to in from.Neighbours)
-            //    {
-            //        sb.Append(" = ( weight of " + FindEdgeWeight(from, to) + ") -> to " + to.NodeValue + " , ");
-
-            //    }
-            //    sb.AppendLine(" ] ");
-
-            //}
-            //Console.WriteLine(sb.ToString());
+          
 
         }
         private Boolean FindCycle(GenericGraphNode<T> from , GenericGraphNode<T> to, GenericGraph<T> g, bool clearvisited = true, bool addfromnode = true)
@@ -311,7 +380,6 @@ namespace DSADemo.DSA
             TraverseGraph(primsg._nodes);
 
         }
-
         private void AddMinWeightPrimMST(ref GenericGraph<T> pg, ref List<GenericGraphNode<T>> primsvisited)
         {
             GenericGraphNode<T> nextnode = null;
