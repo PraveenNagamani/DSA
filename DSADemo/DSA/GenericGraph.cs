@@ -138,24 +138,33 @@ namespace DSADemo.DSA
             DFS(false, true);
             TraverseGraph(true);
         }
-        public void DFS(bool print = true, bool colornode = false)
+        internal List<GenericGraphNode<T>> DFS(bool print = true, bool colornode = false)
         {
+            List<GenericGraphNode<T>> DFSResult = DFS(_nodes,print,colornode);
+            return DFSResult;
+        }
+        protected List<GenericGraphNode<T>>  DFS(List<GenericGraphNode<T>> nodeslist, bool print = true, bool colornode = false)
+        {
+            
             if (print) Console.WriteLine("============ GRAPHS DFS ================");
             Stack<GenericGraphNode<T>> st = new Stack<GenericGraphNode<T>>();
-            if(colornode) _nodes[0].NodeColor = Color.Red;
-            st.Push(_nodes[0]);
+            if (nodeslist.Count == 0) return nodeslist;
+            if (colornode) nodeslist[0].NodeColor = Color.Red;            
+            st.Push(nodeslist[0]);
 
             visited.Add(st.Peek());
-            if (print)  Console.WriteLine(" DFS start with : " + st.Peek().NodeValue);
-            if (print)  Console.WriteLine(" -> " + st.Peek().NodeValue);
+            if (print) Console.WriteLine(" DFS start with : " + st.Peek().NodeValue);
+            if (print) Console.WriteLine(" -> " + st.Peek().NodeValue);
 
             while (st.Count != 0)
             {
-               GenericGraphNode<T> popv = st.Peek();
-               innerDFS(ref st, popv,  visited,print,colornode);
-               st.Pop();
+                GenericGraphNode<T> popv = st.Peek();
+                innerDFS(ref st, popv, visited, print, colornode);
+                st.Pop();
             }
-
+            List<GenericGraphNode<T>> DFSResult =  new List<GenericGraphNode<T>>(visited); 
+            visited.Clear();
+            return DFSResult;
 
         }
         protected void innerDFS(ref Stack<GenericGraphNode<T>> st, GenericGraphNode<T> popv, List<GenericGraphNode<T>> visited, bool print = true, bool colornode = false)
@@ -186,14 +195,14 @@ namespace DSADemo.DSA
                 }
             }
         }
-        internal bool AddEdge(T _from, T _to, int weight)
+        internal bool AddEdge(T _from, T _to, int weight, bool isEdgeDirectional, int reverseweight,bool restrictreverseedge= false)
         {
-            
+            if(isEdgeDirectional && reverseweight != -1) return false;
             GenericGraphNode<T> g1  =FindNode(_from, _nodes);
             GenericGraphNode<T> g2 = FindNode(_to, _nodes);
          
 
-            if (g1.Neighbours.Contains(g2))
+            if ((g1.Neighbours.Contains(g2)) || ((restrictreverseedge) && g2.Neighbours.Contains(g1)))
             {
                 return false;
             }
@@ -215,7 +224,7 @@ namespace DSADemo.DSA
                 }
                 else { return false; }
 
-                if (!isdirectional)
+                if (!isEdgeDirectional)
                 {
                     
                     if (g2.AddNeighbour(g1))
@@ -223,7 +232,7 @@ namespace DSADemo.DSA
                         if (isWeighted)
                         {
                            
-                            GenericGraphEdge<T> e2 = new GenericGraphEdge<T>(weight, g1, g2);
+                            GenericGraphEdge<T> e2 = new GenericGraphEdge<T>(reverseweight, g2, g1);
                             g2.Edges.Add(e2);
                             _weights.Add(e2);
                         }
@@ -293,7 +302,7 @@ namespace DSADemo.DSA
                     colorst = " ( Color :  " + from.NodeColor + " ) ";
                 }
 
-                sb.Append(" Neighbours of " + from.NodeValue + " ( Color : " + from.NodeColor + " ) " + " [ ");
+                sb.Append(" Neighbours of " + from.NodeValue + colorst + " [ ");
                 foreach (GenericGraphNode<T> to in from.Neighbours)
                 {
                     colorst = "";
@@ -324,15 +333,19 @@ namespace DSADemo.DSA
                 GenericGraphNode<T> _parentnode = FindNode(edge.Parent.NodeValue, mst._nodes);
                 GenericGraphNode<T> _childnode = FindNode(edge.Child.NodeValue, mst._nodes);
 
-                if (!FindCycle(_parentnode, _childnode, mst))
+                if (!FindCommonNeighbour(_parentnode, _childnode, mst))
                 {
-                    mst.AddEdge(edge.Parent.NodeValue, edge.Child.NodeValue, edge.EdgeWeight);
-                    if (!isdirectional)
-                    {
-                        mst.AddEdge(edge.Child.NodeValue, edge.Parent.NodeValue, edge.EdgeWeight);
-                    }
+                    //mst.AddEdge(edge.Parent.NodeValue, edge.Child.NodeValue, edge.EdgeWeight);
+                    //if (!isdirectional)
+                    //{
+                    //    mst.AddEdge(edge.Child.NodeValue, edge.Parent.NodeValue, edge.EdgeWeight);
+                    //}
+
+                    mst.AddEdge(edge.Parent.NodeValue, edge.Child.NodeValue, edge.EdgeWeight, true, -1,true);   
+                    
 
                 }
+                
                 visited.Clear();
                 i++;
             }
@@ -360,6 +373,26 @@ namespace DSADemo.DSA
                 if(FindCycle(nnode, to, g,clearvisited,addfromnode)) { return true; }
             }
 
+            
+            return false;
+        }
+
+        private Boolean FindCommonNeighbour(GenericGraphNode<T> from, GenericGraphNode<T> to, GenericGraph<T> g, bool clearvisited = true, bool addfromnode = true)
+        {
+            List<GenericGraphNode<T>> fromlist = [from];
+            List<GenericGraphNode<T>> tolist = [to];
+            List<GenericGraphNode<T>> fromDFSlist = DFS(fromlist, false,false);
+            
+            List<GenericGraphNode<T>> ToDFSlist = DFS(tolist, false, false);
+           
+
+            foreach (GenericGraphNode<T> f in fromDFSlist)
+            {
+                foreach(GenericGraphNode<T> t in ToDFSlist)
+                {
+                    if(f.NodeValue.Equals(t.NodeValue)) { return true; }
+                }
+            }
             
             return false;
         }
@@ -425,7 +458,7 @@ namespace DSADemo.DSA
             if (nextnode != null)
             {
                 pg.AddVertex(nextnode.NodeValue);
-                pg.AddEdge(nextedge.Parent.NodeValue, nextnode.NodeValue, nextedge.EdgeWeight);
+                pg.AddEdge(nextedge.Parent.NodeValue, nextnode.NodeValue, nextedge.EdgeWeight,true,-1);
                 nextnode = FindNode(nextnode.NodeValue, pg._nodes);
                 if (!primsvisited.Contains(nextnode)) { primsvisited.Add(nextnode); }
             }

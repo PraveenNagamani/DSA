@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "P:\\Work\\DSA\\DSADemo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|p:\\work\\dsa\\dsademo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|p:\\work\\dsa\\dsademo\\dsa\\genericgraph.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|solutionrelative:dsa\\genericgraph.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|p:\\work\\dsa\\dsademo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF5D6C2C-4A20-43FB-B24B-BF7DBBEB1D9E}|DSADemo.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,29 +38,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "GenericGraph.cs",
               "DocumentMoniker": "P:\\Work\\DSA\\DSADemo\\DSA\\GenericGraph.cs",
               "RelativeDocumentMoniker": "DSA\\GenericGraph.cs",
               "ToolTip": "P:\\Work\\DSA\\DSADemo\\DSA\\GenericGraph.cs",
               "RelativeToolTip": "DSA\\GenericGraph.cs",
-              "ViewState": "AQIAAFsAAAAAAAAAAAAmwHMAAAANAAAA",
+              "ViewState": "AQIAAFcBAAAAAAAAAAAqwIIBAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-09T10:25:06.017Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "P:\\Work\\DSA\\DSADemo\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "P:\\Work\\DSA\\DSADemo\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAJ0BAAAAAAAAAAAAALcBAAAjAAAA",
+              "ViewState": "AQIAAJoBAAAAAAAAAAAAAKgBAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T13:37:18.704Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-12T13:37:18.704Z"
             }
           ]
         }

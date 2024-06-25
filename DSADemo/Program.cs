@@ -225,8 +225,15 @@ switch(selecteddemo)
 internal class GraphMethods<T>
 {
 
-    internal void EdgeCapture(out String _value, out String _value1, out int weight, bool isweighted = false)
+    internal void EdgeCapture(out String _value, out String _value1, out int weight, bool isweighted = false, bool isEdgeDirectional = false, bool IsGraphDirectional = false, int reverseweight = 0)
     {
+        if (!IsGraphDirectional)
+        {
+            Console.WriteLine("Edge Type \n0.Uni Direction \n 1.Bi direction ");
+            isEdgeDirectional = Convert.ToInt32(Console.ReadLine()) == 0 ? true : false;
+
+        }
+        else { isEdgeDirectional = true;  }
         Console.WriteLine("Edge  b/w Vertex 1 : ");
         _value = Console.ReadLine();
         Console.WriteLine(" to Vertex 2 : ");
@@ -235,6 +242,11 @@ internal class GraphMethods<T>
         {
             Console.WriteLine("Enter weight of edge between " + _value + " and " + _value1);
             weight = Convert.ToInt32(Console.ReadLine());
+            if(!isEdgeDirectional)
+            {
+                Console.WriteLine("Enter Reverse Direction weight");
+                reverseweight = Convert.ToInt32(Console.ReadLine());
+            }
         }
         else
         {
@@ -386,8 +398,10 @@ internal class GraphMethods<T>
 
             for (int i = 0; i < GEno; i++)
             {
-                EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted);
-                Gsg.AddEdge(_Gvalue, _Gvalue1, _weight);
+                bool IsEdgeDirectional = false;
+                int reverseweight = 0;
+                EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted, IsEdgeDirectional, IsDirectional, reverseweight);
+                Gsg.AddEdge(_Gvalue, _Gvalue1, _weight, IsEdgeDirectional,reverseweight);
 
             }
             
@@ -403,18 +417,19 @@ internal class GraphMethods<T>
             Gsg.AddVertex("g");
             Gsg.AddVertex("h");
 
-            Gsg.AddEdge("a", "b",3);
-            Gsg.AddEdge("a", "c",5);
-            Gsg.AddEdge("b", "d",4);
-            Gsg.AddEdge("c", "d",12);
-            Gsg.AddEdge("d", "e",9);
-            Gsg.AddEdge("e", "f",4);
-            Gsg.AddEdge("e", "g",5);
-            Gsg.AddEdge("f", "g",6);
-            Gsg.AddEdge("g", "h",20);
-            Gsg.AddEdge("d", "h",8);
-            Gsg.AddEdge("h", "e",1);
-            //Gsg.setNodeParent();
+            Gsg.AddEdge("a", "b", 9,false,3);
+            Gsg.AddEdge("a", "c", 5,true , -1);
+            Gsg.AddEdge("b", "d", 18 , false,2);
+            Gsg.AddEdge("c", "d", 12, true,-1);
+            Gsg.AddEdge("e", "d", 9, true, -1);
+            Gsg.AddEdge("e", "f", 2, true, -1);
+            Gsg.AddEdge("e", "g", 5, false, 4);
+            Gsg.AddEdge("f", "g", 1, true, -1);
+            Gsg.AddEdge("g", "h", 6, false,2);
+            Gsg.AddEdge("d", "h", 8, true, -1);
+            Gsg.AddEdge("h", "e", 3,false,3);
+
+
 
         }
 
@@ -454,8 +469,10 @@ internal class GraphMethods<T>
                     Gsg.AddVertex(Console.ReadLine());
                     break;
                 case "e":
-                    EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted);
-                    Gsg.AddEdge(_Gvalue, _Gvalue1,_weight);
+                    bool IsEdgeDirectional = false;
+                    int reverseweight = 0;
+                    EdgeCapture(out _Gvalue, out _Gvalue1, out _weight, IsWeighted, IsEdgeDirectional, IsDirectional, reverseweight);
+                    Gsg.AddEdge(_Gvalue, _Gvalue1,_weight, IsEdgeDirectional,reverseweight);
                    
                     break;
                 case "f":
