@@ -491,7 +491,7 @@ namespace DSADemo.DSA
                 sb.Append(visitedpaths.Aggregate((x, y) => x.Value < y.Value ? x : y).Key);
                 int shortestdist = visitedpaths.Aggregate((x, y) => x.Value < y.Value ? x : y).Value;
 
-                sb.Append("\n traversed with weight of : " + shortestdist.ToString());
+                sb.Append("traversed "+ visitedpaths.Aggregate((x, y) => x.Value < y.Value ? x : y).Key + " with weight of : " + shortestdist.ToString());
                 return sb.ToString();
             }
         }
@@ -516,7 +516,6 @@ namespace DSADemo.DSA
                         
             return visitedpaths;
         }
-
         private bool SubPaths(GenericGraphNode<T> Usersrc,GenericGraphNode<T> src, GenericGraphNode<T> dest, ref Stack<GenericGraphNode<T>> st, ref Dictionary<String,int> visitedpaths, ref int[] pathweight, ref int ind, ref bool[] reached)
         {
             if(!reached[ind]) reached[ind] = false;
@@ -564,14 +563,12 @@ namespace DSADemo.DSA
 
             if (visitedpaths.Count == 0) return false; else return true;
         }
-
         protected void AssignWeights(GenericGraphEdge<T> edge)
         {
             String keyid = edge.Parent.NodeValue + "_" + edge.Child.NodeValue;
             if (!dicwt.ContainsKey(keyid)) dicwt.Add(keyid, edge.EdgeWeight);
            
         }
-
         protected int GetWeight(GenericGraphNode<T> pnode,GenericGraphNode<T> cnode)
         {
             String keyid = pnode.NodeValue + "_" + cnode.NodeValue;
