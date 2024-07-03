@@ -3,6 +3,7 @@
 using System;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Linq;
 
@@ -90,7 +91,8 @@ namespace DSADemo.DSA
         List<GenericGraphNode<T>> _nodes = new List<GenericGraphNode<T>> ();
         List<GenericGraphEdge<T>> _weights = new List<GenericGraphEdge<T>>();
         List<GenericGraphNode<T>> visited = new List<GenericGraphNode<T>>();
-       
+        Dictionary<String, int> dicwt = new Dictionary<String, int>();
+
         protected int Count
         {
             get { return _nodes.Count;  }
@@ -217,6 +219,7 @@ namespace DSADemo.DSA
                         
                         GenericGraphEdge<T> e1 = new GenericGraphEdge<T>(weight, g1, g2);
                         g1.Edges.Add(e1);
+                        AssignWeights(e1);
                         _weights.Add(e1);
                     }
                 
@@ -234,6 +237,7 @@ namespace DSADemo.DSA
                            
                             GenericGraphEdge<T> e2 = new GenericGraphEdge<T>(reverseweight, g2, g1);
                             g2.Edges.Add(e2);
+                            AssignWeights(e2);
                             _weights.Add(e2);
                         }
                     }
@@ -467,6 +471,113 @@ namespace DSADemo.DSA
             
            
 
+        }
+
+        internal String DzShortestPath(T Source,T Dest)
+        {
+            if (Source.Equals(Dest)) return "Source and Destination are same";
+            GenericGraphNode<T> srcnode = FindNode(Source, _nodes);
+            GenericGraphNode<T> destnode = FindNode(Dest, _nodes);
+
+            if (srcnode == null || destnode == null)
+            {
+                return "Entered Source / Destination could be found";
+            }
+            else
+            {
+                Dictionary<String, int> visitedpaths = FindAllPaths( FindNode(Source,_nodes), FindNode(Dest, _nodes) );
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(visitedpaths.Aggregate((x, y) => x.Value < y.Value ? x : y).Key);
+                int shortestdist = visitedpaths.Aggregate((x, y) => x.Value < y.Value ? x : y).Value;
+
+                sb.Append("\n traversed with weight of : " + shortestdist.ToString());
+                return sb.ToString();
+            }
+        }
+
+        private Dictionary<String, int> FindAllPaths(GenericGraphNode<T> src, GenericGraphNode<T> dest)
+        {
+            Dictionary<String, int> visitedpaths = new Dictionary<String, int>();
+            Stack<GenericGraphNode<T>> st = new Stack<GenericGraphNode<T>>();
+            st.Push(src);
+            visited.Clear(); visited.Add(src);
+
+            int size = _nodes.Count * (_nodes.Count - 1) / 2, ind = 0;
+            int[] pathweight = new int[size];
+            bool[] reached = new bool[size];
+
+            while (st.Count != 0)
+            {
+                GenericGraphNode<T> srcnode = st.Peek();
+                SubPaths(src,srcnode, dest, ref st, ref visitedpaths, ref pathweight, ref ind, ref reached);
+                st.Pop();
+            }
+                        
+            return visitedpaths;
+        }
+
+        private bool SubPaths(GenericGraphNode<T> Usersrc,GenericGraphNode<T> src, GenericGraphNode<T> dest, ref Stack<GenericGraphNode<T>> st, ref Dictionary<String,int> visitedpaths, ref int[] pathweight, ref int ind, ref bool[] reached)
+        {
+            if(!reached[ind]) reached[ind] = false;
+            
+            
+            foreach (GenericGraphNode<T> f in src.Neighbours)
+            {
+                bool visitededge = false;
+                StringBuilder dictkey = new StringBuilder();
+                
+                // check and skip visited nodes
+                foreach (GenericGraphNode<T> to in visited)
+                {
+                    if (f.NodeValue.Equals(to.NodeValue)) { visitededge = true; break; }
+                }
+                if (visitededge) continue;
+                st.Push(f); visited.Add(f);
+
+                if (f.NodeValue.Equals(dest.NodeValue))
+                {
+                    // setting reached , path, weight
+                    reached[ind] = true; 
+                    for(int i = 0; i < visited.Count - 1; i++)
+                    {
+                        dictkey.Append(visited[i].NodeValue.ToString() + "->");
+                        pathweight[ind] += GetWeight(visited[i], visited[i+1]);
+                    }
+                    dictkey.Append(f.NodeValue);
+
+                    // adding to dictionary
+                    if (!visitedpaths.ContainsKey(dictkey.ToString())) visitedpaths.Add(dictkey.ToString(), pathweight[ind]);
+                    visited.Remove(st.Pop());
+                    return true;
+                    
+                }
+                else
+                {
+                    SubPaths(Usersrc, f, dest,ref st, ref visitedpaths, ref pathweight, ref ind,ref reached);
+                    visited.Remove(st.Pop());
+                }
+
+                if (!reached[ind]) pathweight[ind] = -1; // if not reached setting the not found
+                ind++;
+            }
+
+            if (visitedpaths.Count == 0) return false; else return true;
+        }
+
+        protected void AssignWeights(GenericGraphEdge<T> edge)
+        {
+            String keyid = edge.Parent.NodeValue + "_" + edge.Child.NodeValue;
+            if (!dicwt.ContainsKey(keyid)) dicwt.Add(keyid, edge.EdgeWeight);
+           
+        }
+
+        protected int GetWeight(GenericGraphNode<T> pnode,GenericGraphNode<T> cnode)
+        {
+            String keyid = pnode.NodeValue + "_" + cnode.NodeValue;
+
+            if (dicwt.ContainsKey(keyid)) return dicwt.GetValueOrDefault(keyid);
+            return 0;
         }
 
     }

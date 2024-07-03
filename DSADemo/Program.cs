@@ -449,6 +449,8 @@ internal class GraphMethods<T>
             Console.WriteLine(" h. Prims MST");
             Console.WriteLine(" i. Alternate Colured Graph");
             Console.WriteLine(" j. DFS");
+            Console.WriteLine(" k. BFS");
+            Console.WriteLine(" l. Shortest Path");
             Console.WriteLine(" -- select activity -- ");
             String _graphactivity = Console.ReadLine();
 
@@ -491,6 +493,14 @@ internal class GraphMethods<T>
                     break;
                 case "j":
                     Gsg.DFS();
+                    break;
+                case "k":
+                    break;
+                case "l":
+                    Console.WriteLine("Enter Source and Destination to find shortest path");
+                    String from = Console.ReadLine();
+                    String to = Console.ReadLine();
+                    Console.WriteLine(Gsg.DzShortestPath(from, to));
                     break;
                 default:
                     Console.WriteLine("Incorrect value selected");
